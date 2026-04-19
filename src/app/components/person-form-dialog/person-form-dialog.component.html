@@ -32,6 +32,17 @@
       }
     </mat-form-field>
 
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="role">
+        <mat-option value="ADMIN">Administrator</mat-option>
+        <mat-option value="CUSTOMER">Customer</mat-option>
+      </mat-select>
+      @if (form.controls.role.hasError('required')) {
+        <mat-error>Role is required.</mat-error>
+      }
+    </mat-form-field>
+
     @if (data.showPasswordField) {
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Password</mat-label>
@@ -57,15 +68,15 @@
       </mat-form-field>
     }
 
-  
     @if (errorMessage()) {
       <p class="backend-error">{{ errorMessage() }}</p>
     }
-
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <button mat-button type="button" (click)="cancel()">Cancel</button>
-  <button mat-flat-button type="submit" form="person-form">{{ data.submitLabel ?? 'Submit' }}</button>
+  <button mat-flat-button color="primary" type="submit" form="person-form">
+    {{ data.submitLabel ?? 'Submit' }}
+  </button>
 </mat-dialog-actions>

@@ -1,13 +1,30 @@
+<!-- submission-form-dialog.component.html -->
 <h2 mat-dialog-title>{{ data.title }}</h2>
 
 <mat-dialog-content>
   <form [formGroup]="form" id="submission-form" (ngSubmit)="submit()">
-    
+
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Problem ID</mat-label>
-      <input matInput formControlName="problemId" autocomplete="off" />
+      <mat-label>Person</mat-label>
+      <mat-select formControlName="personId">
+        @for (person of persons(); track person.id) {
+          <mat-option [value]="person.id">{{ person.name }} — {{ person.email }}</mat-option>
+        }
+      </mat-select>
+      @if (form.controls.personId.hasError('required')) {
+        <mat-error>Person is required.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Problem</mat-label>
+      <mat-select formControlName="problemId">
+        @for (problem of problems(); track problem.id) {
+          <mat-option [value]="problem.id">{{ problem.title }} — {{ problem.difficulty }}</mat-option>
+        }
+      </mat-select>
       @if (form.controls.problemId.hasError('required')) {
-        <mat-error>Problem ID is required.</mat-error>
+        <mat-error>Problem is required.</mat-error>
       }
     </mat-form-field>
 
@@ -25,31 +42,25 @@
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Code</mat-label>
-      <textarea 
-        matInput 
-        formControlName="code" 
-        rows="10" 
-        autocomplete="off"
-        style="font-family: monospace;"
-      ></textarea>
+      <textarea matInput formControlName="code" rows="6"
+                placeholder="Write your solution here..."></textarea>
       @if (form.controls.code.hasError('required')) {
         <mat-error>Code is required.</mat-error>
       } @else if (form.controls.code.hasError('minlength')) {
-        <mat-error>Code must be at least 1 character.</mat-error>
+        <mat-error>Code must be at least 10 characters.</mat-error>
       }
     </mat-form-field>
+
+    @if (errorMessage()) {
+      <p class="backend-error">{{ errorMessage() }}</p>
+    }
 
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <button mat-button type="button" (click)="cancel()">Cancel</button>
-  <button 
-    mat-flat-button 
-    type="submit" 
-    form="submission-form" 
-    color="primary"
-  >
+  <button mat-flat-button type="submit" form="submission-form">
     {{ data.submitLabel ?? 'Submit' }}
   </button>
 </mat-dialog-actions>

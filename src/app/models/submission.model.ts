@@ -1,13 +1,22 @@
-import { Language } from "./enums/language.enum";
-import { SubmissionResult } from "./enums/submission-result.enum";
+
+import { Language } from './enums/language.enum';
+import { SubmissionResult } from './enums/submission-result.enum';
+
 export interface Submission {
   id: string;
   code: string;
-  language: Language;       
-  result: SubmissionResult;  
+  language: Language;
+  result: SubmissionResult;
+  submittedAt: string;
+  personId: string;
+  personName: string;
   problemId: string;
+  problemTitle: string;
 }
 
-
-export type CreateSubmissionDTO = Omit<Submission, 'id'>;
-export type UpdateSubmissionDTO = Omit<Submission, 'id'>;
+export interface CreateSubmissionDto {
+  personId: string;
+  problemId: string;
+  code: string;
+  language: Language;
+}

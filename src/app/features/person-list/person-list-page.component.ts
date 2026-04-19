@@ -59,21 +59,25 @@ export class PersonListPageComponent {
   }
 
   protected openEditDialog(person: Person): void {
-    if (this.isLoading()) return;
+  if (this.isLoading()) return;
 
-    this.dialog.open<PersonFormDialogComponent, PersonFormDialogData, PersonFormDialogResult>(
-      PersonFormDialogComponent,
-      {
-        data: {
-          title: 'Edit Person',
-          submitLabel: 'Save',
-          initialValue: person,
-          onSubmit: (dto) => this.store.update(person.id, dto as UpdatePersonDTO),
-          errorMessage: this.store.errorMessage,
+  this.dialog.open<PersonFormDialogComponent, PersonFormDialogData, PersonFormDialogResult>(
+    PersonFormDialogComponent,
+    {
+      data: {
+        title: 'Edit Person',
+        submitLabel: 'Save',
+      
+        initialValue: {
+          ...person,
+          role: (person as any).role ?? 'CUSTOMER' 
         },
+        onSubmit: (dto) => this.store.update(person.id, dto as UpdatePersonDTO),
+        errorMessage: this.store.errorMessage,
       },
-    );
-  }
+    },
+  );
+}
 
   protected openDeleteDialog(person: Person): void {
     if (this.isLoading()) return;

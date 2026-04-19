@@ -5,6 +5,7 @@ export interface Problem{
     title: string;
     description: string;
     difficulty: Difficulty;
+    solverCount?: number;
 }
 
 export type CreateProblemDTO = Omit<Problem, 'id'>;

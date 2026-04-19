@@ -1,0 +1,55 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form" id="submission-form" (ngSubmit)="submit()">
+    
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Problem ID</mat-label>
+      <input matInput formControlName="problemId" autocomplete="off" />
+      @if (form.controls.problemId.hasError('required')) {
+        <mat-error>Problem ID is required.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Language</mat-label>
+      <mat-select formControlName="language">
+        @for (option of languageOptions; track option) {
+          <mat-option [value]="option">{{ option }}</mat-option>
+        }
+      </mat-select>
+      @if (form.controls.language.hasError('required')) {
+        <mat-error>Language is required.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Code</mat-label>
+      <textarea 
+        matInput 
+        formControlName="code" 
+        rows="10" 
+        autocomplete="off"
+        style="font-family: monospace;"
+      ></textarea>
+      @if (form.controls.code.hasError('required')) {
+        <mat-error>Code is required.</mat-error>
+      } @else if (form.controls.code.hasError('minlength')) {
+        <mat-error>Code must be at least 1 character.</mat-error>
+      }
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="cancel()">Cancel</button>
+  <button 
+    mat-flat-button 
+    type="submit" 
+    form="submission-form" 
+    color="primary"
+  >
+    {{ data.submitLabel ?? 'Submit' }}
+  </button>
+</mat-dialog-actions>
